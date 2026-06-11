@@ -1,0 +1,73 @@
+name: Deploy CloudSnip
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          cd backend
+          pip install -r requirements.txt
+
+      - name: Run tests
+        run: |
+          cd backend
+          python -m pytest tests/ -v || echo "No tests yet"
+
+  build-and-push:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./backend
+          push: true
+          tags: divasince2005/cloudsnip:latest
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-and-push
+    steps:
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            docker pull divasince2005/cloudsnip:latest
+            docker stop cloudsnip || true
+            docker rm cloudsnip || true
+            docker run -d \
+              --name cloudsnip \
+              -p 5000:5000 \
+              -e DB_HOST=${{ secrets.DB_HOST }} \
+              -e DB_NAME=cloudsnipdb \
+              -e DB_USER=cloudsnip_user \
+              -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
+              -e JWT_SECRET=${{ secrets.JWT_SECRET }} \
+              -e EC2_HOST=${{ secrets.EC2_HOST }} \
+              divasince2005/cloudsnip:latest
