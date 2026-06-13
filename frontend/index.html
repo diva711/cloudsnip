@@ -10,9 +10,12 @@
 
   <!-- NAVBAR -->
   <div class="navbar">
-    <div class="brand">✂️ CloudSnip</div>
+    <div class="brand">
+      <div class="brand-icon">✂️</div>
+      CloudSnip
+    </div>
     <div class="user-info">
-      <button class="logout-btn" onclick="logout()">Logout</button>
+      <button class="logout-btn" onclick="logout()">Log out</button>
     </div>
   </div>
 
@@ -24,24 +27,26 @@
 
       <div class="form-group">
         <label>Long URL</label>
-        <input type="url" id="longUrl" placeholder="https://example.com/very/long/url">
+        <input type="url" id="longUrl" placeholder="https://example.com/your/very/long/link">
       </div>
 
       <div class="form-group">
         <label>Short URL</label>
         <div class="url-row">
-          <input type="text" id="shortUrl" placeholder="Your short URL will appear here" readonly>
+          <input type="text" id="shortUrl" placeholder="Your short link will appear here" readonly>
           <button class="copy-btn" id="copyBtn" onclick="copyShortUrl()">Copy</button>
         </div>
       </div>
 
-      <button onclick="shortenURL()">Shorten</button>
+      <button onclick="shortenURL()">Shorten URL</button>
       <div id="shortenMessage" class="message"></div>
     </div>
 
     <!-- LINK HISTORY -->
     <div class="history-box">
-      <h2>Link History</h2>
+      <div class="section-header">
+        <h2>Link History</h2>
+      </div>
       <table>
         <thead>
           <tr>
@@ -53,15 +58,17 @@
         </thead>
         <tbody id="historyBody">
           <tr>
-            <td colspan="4" class="empty-state">Loading...</td>
+            <td colspan="4" class="empty-state">No links yet. Shorten your first URL above.</td>
           </tr>
         </tbody>
       </table>
     </div>
 
     <!-- RECENT CLICKS -->
-    <div class="history-box" style="margin-top: 32px;">
-      <h2>Recent Clicks</h2>
+    <div class="history-box">
+      <div class="section-header">
+        <h2>Recent Clicks</h2>
+      </div>
       <table>
         <thead>
           <tr>
@@ -72,7 +79,7 @@
         </thead>
         <tbody id="recentClicks">
           <tr>
-            <td colspan="3" class="empty-state">Loading...</td>
+            <td colspan="3" class="empty-state">No clicks yet. Share your links to see activity here.</td>
           </tr>
         </tbody>
       </table>

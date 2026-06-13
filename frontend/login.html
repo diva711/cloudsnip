@@ -3,21 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CloudSnip — Login</title>
+  <title>CloudSnip — Sign in</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
   <div class="centered">
     <div class="card">
 
       <div class="logo">
-        <h1>✂️ CloudSnip</h1>
+        <div class="logo-mark">✂️</div>
+        <h1>CloudSnip</h1>
         <p>Shorten links. Track clicks.</p>
       </div>
 
       <div class="tabs">
-        <div class="tab active" onclick="showTab('login')">Login</div>
-        <div class="tab" onclick="showTab('register')">Register</div>
+        <div class="tab active" onclick="showTab('login')">Sign in</div>
+        <div class="tab" onclick="showTab('register')">Create account</div>
       </div>
 
       <!-- Login Form -->
@@ -30,7 +32,7 @@
           <label>Password</label>
           <input type="password" id="loginPassword" placeholder="••••••••">
         </div>
-        <button onclick="login()">Login</button>
+        <button onclick="login()">Sign in</button>
         <div id="loginMessage" class="message"></div>
       </div>
 
@@ -44,7 +46,7 @@
           <label>Password</label>
           <input type="password" id="registerPassword" placeholder="••••••••">
         </div>
-        <button onclick="register()">Create Account</button>
+        <button onclick="register()">Create account</button>
         <div id="registerMessage" class="message"></div>
       </div>
 
@@ -55,5 +57,6 @@
   <script>
     redirectIfLoggedIn();
   </script>
+
 </body>
 </html>
